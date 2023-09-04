@@ -1,11 +1,11 @@
 class OrdersController < ApplicationController
   before_action :set_cart, only: %i[ show update destroy ]
   # GET/cart/:cart_id/orders
-  # def index
-  #   @orders = Order.all
+  def index
+    @orders = Order.all
 
-  #   render json: @orders
-  # end
+    render json: @orders
+  end
 
   # GET/cart/:cart_id/orders
   def show

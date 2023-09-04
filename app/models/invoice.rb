@@ -1,3 +1,3 @@
 class Invoice < ApplicationRecord
-  belongs_to :cart
+  has_one :cart
 end
