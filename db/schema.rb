@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_01_142408) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_04_123439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_carts_on_order_id"
+  end
 
   create_table "inventories", force: :cascade do |t|
     t.integer "quantity"
@@ -22,13 +29,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_142408) do
     t.index ["product_id"], name: "index_inventories_on_product_id"
   end
 
+  create_table "invoices", force: :cascade do |t|
+    t.float "subtotal"
+    t.float "total"
+    t.bigint "cart_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_invoices_on_cart_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "quantity"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_orders_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.integer "product_type"
     t.string "name"
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "stock"
   end
 
+  add_foreign_key "carts", "orders"
   add_foreign_key "inventories", "products"
+  add_foreign_key "invoices", "carts"
+  add_foreign_key "orders", "products"
 end

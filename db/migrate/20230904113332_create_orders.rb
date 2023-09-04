@@ -1,6 +1,6 @@
-class CreateInventories < ActiveRecord::Migration[7.0]
+class CreateOrders < ActiveRecord::Migration[7.0]
   def change
-    create_table :inventories do |t|
+    create_table :orders do |t|
       t.integer :quantity
       t.references :product, null: false, foreign_key: true
 
