@@ -2,6 +2,6 @@ class CartsController < ApplicationController
   def index
     @carts = Cart.all
 
-    render json: @carts
+    render json: @carts, include: [:orders]
   end
 end

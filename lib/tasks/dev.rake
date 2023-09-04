@@ -33,7 +33,7 @@ namespace :dev do
     ####################################
 
     puts 'Creating carts...'
-    20.times do |cart|
+    20.times do
       Cart.create!(
         order_id: Order.all.sample.id
       )
