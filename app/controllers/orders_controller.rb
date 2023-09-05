@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show create update destroy]
+  before_action :set_order, only: %i[index show create update destroy]
   # GET/cart/:cart_id/orders
   def index
     @orders = Order.all
@@ -7,9 +7,9 @@ class OrdersController < ApplicationController
     render json: @orders # include: [:products]
   end
 
-  # GET/cart/:cart_id/orders
+  # GET /carts/:cart_id/orders/:id
   def show
-    render json: @orders
+    render json: @order
   end
 
   # POST /carts/:cart_id/orders
@@ -45,6 +45,7 @@ class OrdersController < ApplicationController
 
   def set_order
     @cart = Cart.find(params[:cart_id])
+
   end
 
   # Only allow a list of trusted parameters through.

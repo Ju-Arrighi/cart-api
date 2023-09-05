@@ -1,10 +1,11 @@
 class CartsController < ApplicationController
-  before_action :set_order, only: %i[ show update destroy ]
+  before_action :set_cart, only: %i[ show update destroy ]
+
   # GET/carts/ (See all carts)
   def index
     @carts = Cart.all
 
-    render json: @carts, include: [:orders]
+    render json: @carts, include: [:orders, products_attributes: [:product_type, :name, :price]]
   end
   # GET/carts/:cart_id (See cart with it's orders)
   def show
@@ -13,15 +14,15 @@ class CartsController < ApplicationController
 
   private
 
-  def set_order
+  def set_cart
     @cart = Cart.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(
+    params.require(:cart).permit(
       :cart_id, :product_id,
-      product_attributes: [:product_type, :product_name, :_destroy]
+      products_attributes: [:product_type, :name, :price]
     )
   end
 end
