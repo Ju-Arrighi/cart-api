@@ -2,6 +2,14 @@ class Invoice < ApplicationRecord
   has_one :cart
   has_many :orders, through: :cart
 
+  def cart_itens
+    cart_orders = @invoice.cart.orders
+    cart_orders.each do |order|
+      product_array << order.product_id
+    end
+    product_array
+  end
+
   def invoice_generator
     total = 0
     cart_itens.each do |item|
@@ -20,11 +28,5 @@ class Invoice < ApplicationRecord
     @invoice.total = total
   end
 
-   def cart_itens
-    cart_orders = @invoice.cart.orders
-    cart_orders.each do |order|
-      product_array << order.product_id
-    end
-    product_array
-  end
+
 end

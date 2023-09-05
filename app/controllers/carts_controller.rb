@@ -5,7 +5,7 @@ class CartsController < ApplicationController
   def index
     @carts = Cart.all
 
-    render json: @carts, include: [:orders, products_attributes: [:product_type, :name, :price]]
+    render json: @carts, include: [:orders]
   end
   # GET/carts/:cart_id (See cart with it's orders)
   def show
@@ -21,8 +21,8 @@ class CartsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:cart).permit(
-      :cart_id, :product_id,
-      products_attributes: [:product_type, :name, :price]
+      :cart_id, :order_id,
+      orders_attributes: [:product_type, :name, :price]
     )
   end
 end

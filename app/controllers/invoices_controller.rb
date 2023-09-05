@@ -27,7 +27,6 @@ class InvoicesController < ApplicationController
       cart_attributes: [:order_id, :_destroy]
     )
   end
-end
 
   def cart_itens
     cart_orders = @invoice.cart.orders
@@ -37,23 +36,43 @@ end
     product_array
   end
 
-  def invoice_generator
+  def invoice_creator # Fazer um map para gerar o json
     total = 0
     cart_itens.each do |item|
       item_turn = Product.find(item)
-      @invoice = Invoice.new(
-        @invoice.item_name = item_turn.product_name,
-        @invoice.item_type = item_turn.product_type,
-        @invoice.unit = item_turn.quantity,
-        @invoice.unit_price = item_turn.price,
+      @invoice = {
+        @invoice.item_name = item_turn.product_name
+        @invoice.item_type = item_turn.product_type
+        @invoice.unit = item_turn.quantity
+        @invoice.unit_price = item_turn.price
         @invoice.subtotal = @invoice.unit * @invoice.unit_price
-      )
+      }
       @invoice.save
       total += @invoice.subtotal
       # binding.break
     end
     @invoice.total = total
   end
+end
+
+
+  # def invoice_generator
+  #   total = 0
+  #   cart_itens.each do |item|
+  #     item_turn = Product.find(item)
+  #     @invoice = Invoice.new(
+  #       @invoice.item_name = item_turn.product_name,
+  #       @invoice.item_type = item_turn.product_type,
+  #       @invoice.unit = item_turn.quantity,
+  #       @invoice.unit_price = item_turn.price,
+  #       @invoice.subtotal = @invoice.unit * @invoice.unit_price
+  #     )
+  #     @invoice.save
+  #     total += @invoice.subtotal
+  #     # binding.break
+  #   end
+  #   @invoice.total = total
+  # end
 
 
 #   def show
