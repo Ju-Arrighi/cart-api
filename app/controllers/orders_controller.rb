@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[ show create update destroy ]
+  before_action :set_order, only: %i[show create update destroy]
   # GET/cart/:cart_id/orders
   def index
     @orders = Order.all
@@ -14,9 +14,8 @@ class OrdersController < ApplicationController
 
   # POST /carts/:cart_id/orders
   def create
-    # verify_purchase
-    # library_purchases = @library.purchases
-    # expire(library_purchases)
+    # verify_orders
+    # cart_orders = @cart.orders
     @cart.orders << Order.new(order_params)
     if @cart.save
       render json: @cart.orders, status: :created
@@ -25,10 +24,21 @@ class OrdersController < ApplicationController
     end
   end
 
+  # PATCH	/carts/:cart_id/orders/:id
+  def update
+    order = Order.find(order_params[:id])
+    if order.update(order_params)
+      render json: @cart.orders
+    else
+      render json: @cart.orders.errors
+    end
+  end
+
   # DELETE	/carts/:cart_id/orders/:id
   def destroy
     order = Order.find(order_params[:id])
     order.destroy
+    render json: @cart.orders
   end
 
   private
