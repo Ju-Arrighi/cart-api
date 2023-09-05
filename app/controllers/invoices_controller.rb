@@ -2,7 +2,16 @@ class InvoicesController < ApplicationController
   before_action :set_invoice, only: %i[ show update destroy ]
   # GET/carts/:cart_id/invoice/:id
   def show
-    render json: @invoice # include: [:orders]
+    render json: @invoice, include: [:cart]
+  end
+
+  def subtotal
+    subtotal = @invoice.subtotal
+    # cart = Cart.find(params[:cart_id])
+    orders = @invoice.cart.orders
+    orders.each do |order|
+      order
+    end
   end
 
   private
