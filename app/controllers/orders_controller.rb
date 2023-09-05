@@ -25,6 +25,12 @@ class OrdersController < ApplicationController
     end
   end
 
+  # DELETE	/carts/:cart_id/orders/:id
+  def destroy
+    order = Order.find(order_params[:id])
+    order.destroy
+  end
+
   private
 
   def set_order
@@ -34,7 +40,7 @@ class OrdersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:order).permit(
-      :cart_id, :product_id, :quantity,
+      :id, :cart_id, :product_id, :quantity,
       product_attributes: [:product_type, :product_name, :_destroy]
     )
   end
