@@ -8,7 +8,7 @@ class InvoicesController < ApplicationController
   private
 
   def set_invoice
-    @cart = Cart.find(params[:cart_id])
+    # @cart = Cart.find(params[:cart_id])
     if params[:cart_id]
       invoice_id = Cart.find(params[:cart_id]).invoice_id
     else
