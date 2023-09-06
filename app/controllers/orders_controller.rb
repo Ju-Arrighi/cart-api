@@ -16,8 +16,8 @@ class OrdersController < ApplicationController
   # POST /carts/:cart_id/orders
   def create
     # verify_orders
-    # cart_orders = @cart.orders
     @order = Order.new(order_params)
+    check_cart_items
     check_stock
     @order.subtotal = subtotal_calculator
     @cart.orders << @order
@@ -61,6 +61,20 @@ class OrdersController < ApplicationController
     else
       render json: @cart.orders.errors
     end
+  end
+
+  def check_cart_items
+    error_message = { error: 'You already have this item in your cart. Please update quantity!' }
+    return render json: error_message, status: 500 if cart_itens.include?(order_params[:product_id])
+  end
+
+  def cart_itens
+    product_array = []
+    cart_orders = @cart.orders
+    cart_orders.each do |order|
+      product_array << order.product_id
+    end
+    product_array
   end
 
   private
