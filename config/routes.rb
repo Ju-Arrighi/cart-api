@@ -7,6 +7,5 @@ Rails.application.routes.draw do
   resources :carts, only: [:index, :show]
   resources :carts do
     resources :orders, only: [:index, :show, :create, :update, :destroy]
-    resources :invoices, only: [:show]
   end
 end
