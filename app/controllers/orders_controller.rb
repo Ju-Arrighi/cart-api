@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
     # verify_orders
     # cart_orders = @cart.orders
     @order = Order.new(order_params)
+    check_stock
     @order.subtotal = subtotal_calculator
     @cart.orders << @order
     if @cart.save
@@ -30,6 +31,7 @@ class OrdersController < ApplicationController
   # PATCH	/carts/:cart_id/orders/:id
   def update
     @order = Order.find(order_params[:id])
+    check_stock
     if @order.update(order_params)
       @order.subtotal = subtotal_calculator
       render json: @cart.orders
@@ -49,6 +51,18 @@ class OrdersController < ApplicationController
     @order.quantity * Product.find(@order[:product_id]).price
   end
 
+  def check_stock
+    product = Product.find(@order[:product_id])
+    stock = product.stock
+    wish = order_params[:quantity]
+    if (stock >= wish) && (stock - wish).positive?
+      product[:stock] = stock - wish
+      product.save
+    else
+      render json: @cart.orders.errors
+    end
+  end
+
   private
 
   def set_cart
@@ -62,7 +76,8 @@ class OrdersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:order).permit(
-      :id, :cart_id, :product_id, :quantity
+      :id, :cart_id, :product_id, :quantity,
+      products_attributes: [:name, :product_type]
     )
   end
 end
