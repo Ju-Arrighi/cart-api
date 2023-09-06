@@ -10,26 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_05_130308) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_06_134433) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "invoice_id"
-    t.index ["invoice_id"], name: "index_carts_on_invoice_id"
-  end
-
-  create_table "invoices", force: :cascade do |t|
-    t.float "subtotal"
-    t.float "total"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "item_name"
-    t.string "item_type"
-    t.integer "unit"
-    t.decimal "unit_price", precision: 10, scale: 2
   end
 
   create_table "orders", force: :cascade do |t|
@@ -38,6 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_130308) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "cart_id"
+    t.decimal "subtotal", precision: 10, scale: 2
     t.index ["cart_id"], name: "index_orders_on_cart_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
   end
@@ -51,7 +39,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_130308) do
     t.integer "stock"
   end
 
-  add_foreign_key "carts", "invoices"
   add_foreign_key "orders", "carts"
   add_foreign_key "orders", "products"
 end
