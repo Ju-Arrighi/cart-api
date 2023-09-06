@@ -1,10 +1,10 @@
 class OrdersController < ApplicationController
   before_action :set_cart, only: %i[index show create update destroy]
-  before_action :set_order, only: %i[show update destroy]
+  before_action :set_order, only: %i[show]
   # GET/cart/:cart_id/orders
   def index
     @orders = set_cart.orders
-    # binding.break
+
     render json: @orders
   end
 
@@ -19,10 +19,7 @@ class OrdersController < ApplicationController
     # cart_orders = @cart.orders
     @order = Order.new(order_params)
     @order.subtotal = subtotal_calculator
-    # @cart.orders << Order.new(order_params)
-    # @cart.orders.subtotal = subtotal_calculator
     @cart.orders << @order
-    # binding.break
     if @cart.save
       render json: @cart.orders, status: :created
     else
@@ -32,8 +29,9 @@ class OrdersController < ApplicationController
 
   # PATCH	/carts/:cart_id/orders/:id
   def update
-    order = Order.find(order_params[:id])
-    if order.update(order_params)
+    @order = Order.find(order_params[:id])
+    if @order.update(order_params)
+      @order.subtotal = subtotal_calculator
       render json: @cart.orders
     else
       render json: @cart.orders.errors
