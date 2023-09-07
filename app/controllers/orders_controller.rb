@@ -3,9 +3,9 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[show]
   # GET/cart/:cart_id/orders
   def index
-    @orders = set_cart.orders
+    @orders = @cart.orders
 
-    render json: @orders, include: [:product]
+    render json: @orders
   end
 
   # GET /carts/:cart_id/orders/:id
@@ -25,6 +25,8 @@ class OrdersController < ApplicationController
       render json: @cart.orders, status: :created
     else
       render json: @cart.errors, status: :unprocessable_entity
+      # render json: error_message, status: 500
+      # error_message = { error: 'You already have this item in your cart. Please update quantity!' }
     end
   end
 
@@ -64,8 +66,7 @@ class OrdersController < ApplicationController
   end
 
   def check_cart_items
-    error_message = { error: 'You already have this item in your cart. Please update quantity!' }
-    return render json: error_message, status: 500 if cart_itens.include?(order_params[:product_id])
+    return if cart_itens.include?(order_params[:product_id])
   end
 
   def cart_itens

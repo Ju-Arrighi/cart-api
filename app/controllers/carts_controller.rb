@@ -1,15 +1,16 @@
 class CartsController < ApplicationController
-  before_action :set_cart, only: %i[ show update destroy ]
+  before_action :set_cart, only: %i[show update destroy]
 
   # GET/carts/ (See all carts)
   def index
     @carts = Cart.all
 
-    render json: @carts, include: [:orders, :products]
+    render json: @carts, include: [:orders]
   end
   # GET/carts/:cart_id (See cart with it's orders)
   def show
-    render json: @cart, include: [:orders]
+
+    render json: @cart
   end
 
   def total_calculator
@@ -17,7 +18,6 @@ class CartsController < ApplicationController
       @cart[:total] += order.subtotal
     end
     @cart.save
-    binding.break
   end
 
   private
