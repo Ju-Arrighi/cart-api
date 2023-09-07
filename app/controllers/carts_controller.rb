@@ -12,10 +12,19 @@ class CartsController < ApplicationController
     render json: @cart, include: [:orders]
   end
 
+  def total_calculator
+    @cart.orders.each do |order|
+      @cart[:total] += order.subtotal
+    end
+    @cart.save
+    binding.break
+  end
+
   private
 
   def set_cart
     @cart = Cart.find(params[:id])
+    total_calculator
   end
 
   # Only allow a list of trusted parameters through.
