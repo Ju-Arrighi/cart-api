@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   def index
     @orders = set_cart.orders
 
-    render json: @orders
+    render json: @orders, include: [:product]
   end
 
   # GET /carts/:cart_id/orders/:id
