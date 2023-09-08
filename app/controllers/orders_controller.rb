@@ -17,16 +17,15 @@ class OrdersController < ApplicationController
   def create
     # verify_orders
     @order = Order.new(order_params)
-    check_cart_items
-    check_stock
-    @order.subtotal = subtotal_calculator
-    @cart.orders << @order
-    if @cart.save
-      render json: @cart.orders, status: :created
+    if check_cart_items
+      @error_message = { error: 'You already have this item in your cart. Please update quantity!' }
+      render json: @error_message, status: 500
     else
-      render json: @cart.errors, status: :unprocessable_entity
-      # render json: error_message, status: 500
-      # error_message = { error: 'You already have this item in your cart. Please update quantity!' }
+      check_stock
+      @order.subtotal = subtotal_calculator
+      @cart.orders << @order
+      @cart.save
+      render json: @cart.orders, status: :created
     end
   end
 
@@ -66,7 +65,7 @@ class OrdersController < ApplicationController
   end
 
   def check_cart_items
-    return if cart_itens.include?(order_params[:product_id])
+    cart_itens.include?(order_params[:product_id])
   end
 
   def cart_itens
