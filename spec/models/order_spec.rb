@@ -8,4 +8,8 @@ RSpec.describe Order, type: :model do
     it 'an order have to be placed inside the same cart'
     it 'quantity can not be negative number'
   end
+
+  context 'associations with shoulda matchers' do
+    # it { should have_one(:inventory) }
+  end
 end

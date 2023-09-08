@@ -8,12 +8,14 @@ namespace :dev do
       Product.create!(
         product_type: 0,
         name: Faker::Commerce.product_name,
+        description: Faker::Lorem.paragraph,
         price: Faker::Commerce.price,
         stock: rand(20..100)
       )
       Product.create!(
         product_type: 1,
         name: Faker::Music::RockBand.name,
+        description: Faker::Lorem.paragraph,
         price: Faker::Commerce.price,
         stock: rand(20..100)
       )

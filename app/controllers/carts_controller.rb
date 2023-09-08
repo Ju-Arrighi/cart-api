@@ -10,7 +10,7 @@ class CartsController < ApplicationController
   # GET/carts/:cart_id (See cart with it's orders)
   def show
 
-    render json: @cart
+    render json: @cart, include: [:orders]
   end
 
   def total_calculator
