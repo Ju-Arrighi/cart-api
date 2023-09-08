@@ -12,4 +12,9 @@ RSpec.describe Order, type: :model do
   context 'associations with shoulda matchers' do
     # it { should have_one(:inventory) }
   end
+
+  # context 'conditions for product to exist' do
+  #   it 'stock has to be non-negative'
+    # expect(subject.stock >= 0).to be(true)
+  # end
 end

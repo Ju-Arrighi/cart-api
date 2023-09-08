@@ -5,12 +5,12 @@ class CartsController < ApplicationController
   def index
     @carts = Cart.all
 
-    render json: @carts, include: [:orders]
+    render json: @carts
   end
   # GET/carts/:cart_id (See cart with it's orders)
   def show
 
-    render json: @cart, include: [:orders]
+    render json: @cart
   end
 
   def total_calculator
