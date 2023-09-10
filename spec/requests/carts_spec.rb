@@ -8,7 +8,8 @@ RSpec.describe "Carts", type: :request do
     end
     it 'get show and return 200 OK' do
       get '/carts/1.json'
-      expect(response.body).to include_json(id: 1)
+      # binding.break
+      expect(response.body).to include_json(cart[id: 1])
     end
   end
 end
