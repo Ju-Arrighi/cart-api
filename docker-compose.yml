@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+      # Named volume to persist database data outside of container.
+      # Format is "named_volume:path/in/container"
+      # - db_pg_data:/var/lib/postgresql/data
+      # Host mount for one-time initialization.
+      # Format is "./path/on/host:/path/in/container"
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_PASSWORD: 44620419
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/cart-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db

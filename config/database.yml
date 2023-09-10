@@ -20,6 +20,11 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['DATABASE_NAME'] || "cart_api" %>
+  username: <%= ENV['DATABASE_USER'] || "cart_api" %>
+  password: <%= ENV['DATABASE_PASSWORD'] || "cart_api" %>
+  port: <%= ENV['DATABASE_PORT'] || "5432" %>
+  # host: <%= ENV['DATABASE_HOST'] || "127.0.0.1" %>
 
 development:
   <<: *default
