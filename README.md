@@ -33,11 +33,11 @@ ENDPOINTS
 
 Endpoints to perform actions are commented in the controllers. Here as some examples:
 
-http://localhost:3000/products - To see all products.
-http://localhost:3000/carts - To see all carts.
-http://localhost:3000/carts/11 - To see one specific cart. In the #show action all the information to generate an invoice is available.
-http://localhost:3000/carts/11/orders - To see all orders inside cart 11. You can also create a new order with this endpoint.
-http://localhost:3000/carts/11/orders/28 - At this endpoint you can update an order. Restrictions are applied to comply with test requirements.
+* http://localhost:3000/products - To see all products.
+* http://localhost:3000/carts - To see all carts.
+* http://localhost:3000/carts/11 - To see one specific cart. In the #show action all the information to generate an invoice is available.
+* http://localhost:3000/carts/11/orders - To see all orders inside cart 11. You can also create a new order with this endpoint.
+* http://localhost:3000/carts/11/orders/28 - At this endpoint you can update an order. Restrictions are applied to comply with test requirements.
 
 DOCKER
 
