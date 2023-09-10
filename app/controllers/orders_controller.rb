@@ -15,7 +15,6 @@ class OrdersController < ApplicationController
 
   # POST /carts/:cart_id/orders
   def create
-    # verify_orders
     @order = Order.new(order_params)
     if check_cart_items
       @error_message = { error: 'You already have this item in your cart. Please update quantity!' }
@@ -32,9 +31,13 @@ class OrdersController < ApplicationController
   # PATCH	/carts/:cart_id/orders/:id
   def update
     @order = Order.find(order_params[:id])
+    unit = order_params[:quantity]
     check_stock
-    if @order.update(order_params)
+    if unit.zero?
+      @order.destroy
+    elsif @order.update(order_params)
       @order.subtotal = subtotal_calculator
+      @order.save
       render json: @cart.orders
     else
       render json: @cart.orders.errors
@@ -48,6 +51,23 @@ class OrdersController < ApplicationController
     render json: @cart.orders
   end
 
+  private
+
+  def set_cart
+    @cart = Cart.find(params[:cart_id])
+  end
+
+  def set_order
+    @order = Order.find(params[:id])
+  end
+
+  def order_params
+    params.require(:order).permit(
+      :id, :cart_id, :product_id, :quantity,
+      products_attributes: [:name, :product_type]
+    )
+  end
+
   def subtotal_calculator
     @order.quantity * Product.find(@order[:product_id]).price
   end
@@ -56,8 +76,11 @@ class OrdersController < ApplicationController
     product = Product.find(@order[:product_id])
     stock = product.stock
     wish = order_params[:quantity]
-    if (stock >= wish) && (stock - wish).positive?
+    if @order.quantity < wish && (stock - wish).positive?
       product[:stock] = stock - wish
+      product.save
+    elsif @order.quantity > wish
+      product[:stock] = stock + (@order.quantity - wish)
       product.save
     else
       render json: @cart.orders.errors
@@ -75,23 +98,5 @@ class OrdersController < ApplicationController
       product_array << order.product_id
     end
     product_array
-  end
-
-  private
-
-  def set_cart
-    @cart = Cart.find(params[:cart_id])
-  end
-
-  def set_order
-    @order = Order.find(params[:id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def order_params
-    params.require(:order).permit(
-      :id, :cart_id, :product_id, :quantity,
-      products_attributes: [:name, :product_type]
-    )
   end
 end
