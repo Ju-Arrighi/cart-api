@@ -8,8 +8,6 @@ This is an API application challenge. Some highlights about the code:
 
 * It's was done in Ruby on Rails, version 7.0.6, Ruby version 3.1.2.
 
-* It follows REST principles as asked for. The gem Active Model Serializer was used with json_api adapter which complies with format specified in jsonapi.org/format.
-
 * Rails by default uses Minitest. This challenge uses RSpec as the testing framework.
 
 * The DB is Postgresql. And its schema is represented by the image bellow:
@@ -42,3 +40,7 @@ Endpoints to perform actions are commented in the controllers. Here as some exam
 DOCKER
 
 In the branch docker there are configurations do dockerize this app.
+
+SERIALIZER
+
+The gem Active Model Serializer was used with json_api adapter which complies with format specified in jsonapi.org/format. It's done in the branch serializer. It's not merged with main because it still has work to be done and because it's not mandatory.
