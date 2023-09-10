@@ -29,9 +29,6 @@ class CartsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:cart).permit(
-      :cart_id, :order_id,
-      orders_attributes: [:product_type, :name, :price]
-    )
+    ActiveModelSerializers::Deserialization.jsonapi_parse(params)
   end
 end

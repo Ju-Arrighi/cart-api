@@ -11,10 +11,11 @@ class Product < ApplicationRecord
     Faker::LoremFlickr.image  #(size: "50x60")
   end
 
-  def as_json(_option)
-    super(
-      root: true,
-      methods: :thumbnail_url
-    )
-  end
+  # def attributes(*args)
+  #   h = super(args)
+  #   super(
+  #     root: true,
+  #     methods: :thumbnail_url
+  #   )
+  # end
 end

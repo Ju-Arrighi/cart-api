@@ -62,10 +62,11 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(
-      :id, :cart_id, :product_id, :quantity,
-      products_attributes: [:name, :product_type]
-    )
+    # params.require(:order).permit(
+    #   :id, :cart_id, :product_id, :quantity,
+    #   products_attributes: [:name, :product_type]
+    # )
+    ActiveModelSerializers::Deserialization.jsonapi_parse(params)
   end
 
   def subtotal_calculator
