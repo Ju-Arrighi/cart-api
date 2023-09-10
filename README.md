@@ -14,6 +14,8 @@ This is an API application challenge. Some highlights about the code:
 
 * The DB is Postgresql. And its schema is represented by the image bellow:
 
+ <img width="757" alt="Screenshot 2023-09-10 at 20 03 29" src="https://github.com/Ju-Arrighi/cart-api/assets/85900332/8fab289d-5f3d-4b5e-b6a5-323518924b94">
+
 
 INSTALLATION INSTRUCTIONS
 
