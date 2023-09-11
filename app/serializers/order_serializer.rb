@@ -1,3 +1,3 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id, :subtotal, :product_id, :cart_id
+  attributes :id, :subtotal, :product_id, :cart_id, :quantity
 end

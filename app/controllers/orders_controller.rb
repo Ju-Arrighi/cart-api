@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
 
   # PATCH	/carts/:cart_id/orders/:id
   def update
+    binding.break
     @order = Order.find(order_params[:id])
     unit = order_params[:quantity]
     check_stock
@@ -77,10 +78,10 @@ class OrdersController < ApplicationController
     product = Product.find(@order[:product_id])
     stock = product.stock
     wish = order_params[:quantity]
-    if @order.quantity < wish && (stock - wish).positive?
+    if product.stock < wish && (stock - wish).positive?
       product[:stock] = stock - wish
       product.save
-    elsif @order.quantity > wish
+    elsif product.stock > wish
       product[:stock] = stock + (@order.quantity - wish)
       product.save
     else
